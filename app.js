@@ -13,8 +13,8 @@ const app = express();
 app.get(helmet());
 app.set("view engine", "pug");
 app.get(cookieParser());
-app.get(bodyParser.json());
-app.get(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
 app.get(morgan("dev"));
 app.use(localsMiddleware);
 

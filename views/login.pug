@@ -1,8 +1,8 @@
 extends layouts/main
 
 block content
-    .form__container
-        form(acrion="/login", method="post")
+    .form-container
+        form(acrion=routes.login, method="post")
             input(type="email", name="email", placeholder="Email")
             input(type="password", name="password", placeholder="Password")
             input(type="submit", value="Log In")
