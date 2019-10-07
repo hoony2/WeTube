@@ -4,7 +4,7 @@ import { stringLiteral } from "babel-types";
 const Videoschema = new mongoose.Schema({
     fileUrl: {
         type: String,
-        required: 'File RUL is required'
+        required: 'File URL is required'
     },
     title: {
         type:String,
