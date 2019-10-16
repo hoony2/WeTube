@@ -2,6 +2,10 @@ import passport from "passport";
 import routes from "../routes";
 import User from "../models/user";
 
+//
+
+//
+
 export const getJoin  = (req, res) => {
     res.render("join", { pageTitle: "Join"});
 };
@@ -30,13 +34,49 @@ export const postJoin = async (req, res, next) => {
 export const getLogin = (req, res) => 
     res.render("login", { pageTitle: "Log in"});
 
-export const postLogin = passport.authenticate('local',{
+export const postLogin = passport.authenticate("local",{
     failureRedirect: routes.login,
     successRedirect: routes.home
-})
+});
+
+export const githubLogin = passport.authenticate("github", {
+    successFlash: "Welcome",
+    failureFlash: "Can't log in at this time"
+});
+
+// export const githubLoginCallback = (accessToken, refreshToken, profile, cb) => {
+//     console.log(accessToken, refreshToken, profile, cb);
+// };
+
+export const githubLoginCallback = async (_, __, profile, cb) => {
+    const { 
+        _json: { id, avatar_url: avatarUrl, name, email} 
+    } = profile;
+    try {
+        const user = await User.findOne({ email });
+        if (user) { 
+            user.githubId = id;
+            user.save();
+            return cb(null, user);
+        } 
+        const newUser = await User.create({
+            email,
+            name,
+            githubId : id,
+            avatarUrl
+         });
+            return cb(null, newUser);
+        } catch (error) {
+            return cb(error);
+    }
+};
+
+export const postGithubLogin = (req,res) => {
+    res.redirect(routes.home);
+};
 
 export const logout = (req, res) => {
-    // To Do: Process Log Out
+    req.logout();
     res.redirect(routes.home);
 };
 export const users = (req, res) => 
