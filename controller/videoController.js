@@ -43,21 +43,26 @@ export const postUpload = async (req, res) => {
     const newVideo = await Video.create({
         fileUrl: path,
         title,
-        description
+        description,
+        creator: req.user.id
     });
-    res.redirect(routes.videoDetail(newVideo.id));
+    console.log(newVideo)
+    req.user.videos.push(newVideo.id);
+    req.user.save();
+res.redirect(routes.videoDetail(newVideo.id));
 };
 
  // Video Detail
 
 export const videoDetail = async (req, res) => {
     const {
-        params: {id}
+        params: { id }
     } = req;
     try {
-        const video = await Video.findById(id);
-    res.render("videoDetail", { pageTitle: video.title, video} );
+        const video = await Video.findById(id).populate("creator");
+        res.render("videoDetail", { pageTitle: video.title, video} );
     } catch (error) {
+        console.log(error);
         res.redirect(routes.home);
     }
 };
