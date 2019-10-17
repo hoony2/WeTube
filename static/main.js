@@ -94,7 +94,18 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_styles_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/styles.scss */ \"./assets/scss/styles.scss\");\n/* harmony import */ var _scss_styles_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_styles_scss__WEBPACK_IMPORTED_MODULE_0__);\n\n\nconst something = async () => {\n    console.log(\"something\");\n}\n\n//# sourceURL=webpack:///./assets/js/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_styles_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/styles.scss */ \"./assets/scss/styles.scss\");\n/* harmony import */ var _scss_styles_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_styles_scss__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _videoRecorder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./videoRecorder */ \"./assets/js/videoRecorder.js\");\n/* harmony import */ var _videoRecorder__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_videoRecorder__WEBPACK_IMPORTED_MODULE_1__);\n\n\n\n\n//# sourceURL=webpack:///./assets/js/main.js?");
+
+/***/ }),
+
+/***/ "./assets/js/videoRecorder.js":
+/*!************************************!*\
+  !*** ./assets/js/videoRecorder.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const recorderContainer = document.getElementById(\"jsRecordContainer\");\nconst recordBtn = document.getElementById(\"jsRecordBtn\");\nconst videoPreview = document.getElementById(\"jsVideoPreview\");\n\n\nconst startRecording = async () => {\n    try {\n        const stream = await navigator.mediaDevices.getUserMedia({\n            audio: true,\n            video: { width:1280, height: 720 }\n        });\n        videoPreview.srcObject = stream;\n        videoPreview.muted = true;\n        videoPreview.play();\n    } catch (error) {\n        recordBtn.innerHTML = \"🙁 Cant record\";\n        recordBtn.removeEventListener(\"click\", startRecording);\n    } \n}\n\nfunction init() {\n    recordBtn.addEventListener(\"click\", startRecording);\n}\n\nif (recorderContainer) {\n    init()\n}\n\n//# sourceURL=webpack:///./assets/js/videoRecorder.js?");
 
 /***/ }),
 
