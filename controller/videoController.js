@@ -6,6 +6,7 @@ import Video from "../models/Video";
 export const home = async (req,res) => {
     try {
         const videos = await Video.find({}).sort({ _id: -1 });
+        console.log(videos);
         res.render("home", { pageTitle: "Home", videos });
     } catch (error){
         console.log(error)
@@ -101,7 +102,12 @@ export const deleteVideo = async (req, res) =>  {
         params: { id }
     }  = req;
     try {
-        await Video.findOneAndRemove({ _id: id });
+        const video = await Video.findById(id);
+        if (video.creator !== req.user.id) {
+          throw Error();
+        } else {
+          await Video.findOneAndRemove({ _id: id });
+        }
     } catch (error) {
         console.log(error);
     }
